@@ -69,8 +69,11 @@ defmodule Rambo do
           |> put_flag_if(:stdin, stdin != nil)
           |> put_flag_if({:cd, current_dir}, current_dir != nil)
 
+
+        command = List.to_string(:os.find_executable(String.to_charlist(command)))
+
         task = Task.async(fn ->
-          {:ok, pid, _os_pid} = :exec.run(command, [:stdout, :stderr, :monitor | in_flags])
+          {:ok, pid, _os_pid} = :exec.run([command | args], [:stdout, :stderr, :monitor | in_flags])
 
           if stdin != nil do
             :exec.send(pid, stdin)
