@@ -70,7 +70,7 @@ defmodule Rambo do
           |> put_flag_if({:cd, current_dir}, current_dir != nil)
 
         task = Task.async(fn ->
-          {:ok, pid, _os_pid} = :exec.run(command, [:stdin, :stdout, :stderr, :monitor | in_flags])
+          {:ok, pid, _os_pid} = :exec.run(command, [:stdout, :stderr, :monitor | in_flags])
 
           if stdin != nil do
             :exec.send(pid, stdin)
